@@ -1,4 +1,5 @@
 export default {
+  loading: "~/components/loading.vue",
   // Disable server-side rendering (https://go.nuxtjs.dev/ssr-mode)
   ssr: false,
 
@@ -10,7 +11,11 @@ export default {
       { name: "viewport", content: "width=device-width, initial-scale=1" },
       { hid: "description", name: "description", content: "" }
     ],
-    link: [{ rel: "icon", type: "image/x-icon", href: "/favicon.ico" }]
+    link: [{ rel: "icon", type: "image/x-icon", href: "/favicon.ico" },
+      {
+        rel: "stylesheet",
+        href: "https://fonts.googleapis.com/css2?family=Reenie+Beanie&display=swap",
+      },]
   },
 
   // Global CSS (https://go.nuxtjs.dev/config-css)
@@ -32,13 +37,23 @@ export default {
   modules: [
     // https://go.nuxtjs.dev/bootstrap
     "bootstrap-vue/nuxt",
-    "@nuxtjs/axios"
+    "@nuxtjs/axios",
+    '@nuxtjs/proxy'
   ],
 
   // Build Configuration (https://go.nuxtjs.dev/config-build)
   build: {},
 
   axios: {
-    baseURL: process.env.API_URL
+    proxy: true
+  },
+
+  proxy: {
+    '/api': {
+      target: process.env.API_URL,
+      pathRewrite: {
+        '^/api' : '/'
+      }
+    }
   }
 };

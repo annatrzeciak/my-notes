@@ -9,4 +9,8 @@
   </div>
 </template>
 
-<style lang="scss"></style>
+<style lang="scss">
+h1 {
+  text-align: center;
+}
+</style>

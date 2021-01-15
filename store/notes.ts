@@ -27,7 +27,7 @@ export const mutations: MutationTree<NotesModuleState> = {
 
 export const actions: ActionTree<NotesModuleState, RootState> = {
   [NotesActions.FETCH_NOTES]: async function({ commit }) {
-    const notes = await this.$axios.$get("/notes");
+    const notes = await this.$axios.$get("/api/notes");
     commit(
       NotesMutations.SET_NOTES,
       notes.map(
