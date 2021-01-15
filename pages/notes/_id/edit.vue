@@ -1,7 +1,5 @@
 <template>
-  <div>
-    <h1>Home</h1>
-  </div>
+  <h1>note {{ $route.params.id }} edit</h1>
 </template>
 
 <script lang="ts">
