@@ -27,17 +27,34 @@ export const mutations: MutationTree<NotesModuleState> = {
 
 export const actions: ActionTree<NotesModuleState, RootState> = {
   [NotesActions.FETCH_NOTES]: async function({ commit }) {
-    const notes = await this.$axios.$get("/api/notes");
-    commit(
-      NotesMutations.SET_NOTES,
-      notes.map(
-        (note: { title: string; note: string; date: string; _id: string }) => ({
-          title: note.title,
-          note: note.note,
-          date: new Date(note.date),
-          id: note._id
-        })
-      )
-    );
+    try {
+      window.$nuxt.$loading.start();
+      const notes = await this.$axios.$get("/api/notes");
+      commit(
+        NotesMutations.SET_NOTES,
+        notes.map(
+          (note: {
+            title: string;
+            note: string;
+            date: string;
+            _id: string;
+          }) => ({
+            title: note.title,
+            note: note.note,
+            date: new Date(note.date),
+            id: note._id
+          })
+        )
+      );
+    } catch (e) {
+      // @ts-ignore
+      this._vm.$bvToast.toast(e.message, {
+        title: `Problem with loading data`,
+        variant: "danger",
+        toaster: "b-toaster-bottom-right"
+      });
+    } finally {
+      window.$nuxt.$loading.start();
+    }
   }
 };

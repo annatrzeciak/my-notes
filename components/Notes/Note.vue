@@ -3,6 +3,7 @@
     class="note mx-auto my-2"
     v-b-tooltip.hover
     title="Click to show details"
+    @click="$router.push({name:'note-id', params: {id: note.id}})"
   >
     <h3>{{ note.title }}</h3>
   </div>
