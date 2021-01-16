@@ -3,7 +3,8 @@ import {RootState} from "~/store";
 import {Note} from "~/types/note";
 
 export enum NotesActions {
-  FETCH_NOTES = "fetchNotes"
+  FETCH_NOTES = "fetchNotes",
+  SAVE_NOTE = "saveNote"
 }
 
 export enum NotesMutations {
@@ -28,7 +29,9 @@ export const mutations: MutationTree<NotesModuleState> = {
 export const actions: ActionTree<NotesModuleState, RootState> = {
   [NotesActions.FETCH_NOTES]: async function({ commit }) {
     try {
-      window.$nuxt.$loading.start();
+      this._vm.$nextTick(() => {
+        window.$nuxt.$loading.start();
+      });
       const notes = await this.$axios.$get("/api/notes");
       commit(
         NotesMutations.SET_NOTES,
@@ -49,12 +52,44 @@ export const actions: ActionTree<NotesModuleState, RootState> = {
     } catch (e) {
       // @ts-ignore
       this._vm.$bvToast.toast(e.message, {
-        title: `Problem with loading data`,
+        title: "Problem with loading data",
         variant: "danger",
         toaster: "b-toaster-bottom-right"
       });
     } finally {
-      window.$nuxt.$loading.start();
+      this._vm.$nextTick(() => {
+        window.$nuxt.$loading.finish();
+      });
+    }
+  },
+
+  [NotesActions.SAVE_NOTE]: async function({ dispatch }, note: Note) {
+    try {
+      this._vm.$nextTick(() => {
+        window.$nuxt.$loading.start();
+      });
+      if (note.id) {
+        await this.$axios.$put("/api/notes", note);
+      } else {
+        await this.$axios.$post("/api/notes", note);
+      }
+      this._vm.$bvToast.toast("The note was saved successfully", {
+        title: "Note saved",
+        variant: "success",
+        toaster: "b-toaster-bottom-right"
+      });
+      await dispatch(NotesActions.FETCH_NOTES);
+      return Promise.resolve('Saved');
+    } catch (e) {
+      this._vm.$bvToast.toast(e.message, {
+        title: "Problem with loading data",
+        variant: "danger",
+        toaster: "b-toaster-bottom-right"
+      });
+    } finally {
+      this._vm.$nextTick(() => {
+        window.$nuxt.$loading.finish();
+      });
     }
   }
 };

@@ -1,11 +1,11 @@
 <template>
   <div
-    class="note mx-auto my-2"
+    class="note note--hover mx-auto my-2"
     v-b-tooltip.hover
     title="Click to show details"
-    @click="$router.push({name:'note-id', params: {id: note.id}})"
+    @click="$router.push({ name: 'note-id', params: { id: note.id } })"
   >
-    <h3>{{ note.title }}</h3>
+    <h3>{{ title }}</h3>
   </div>
 </template>
 
@@ -14,32 +14,16 @@
   import {Note} from "~/types/note";
 
   export default Vue.extend({
-  props: { note: { type: Object as PropType<Note>, required: true } }
+  props: { note: { type: Object as PropType<Note>, required: true } },
+  computed: {
+    title(): string {
+      if (this.note && this.note.title.length > 60) {
+        return this.note.title.substring(0, 60) + "...";
+      }
+      return this.note.title;
+    }
+  }
 });
 </script>
 
-<style scoped lang="scss">
-.note {
-  font-family: "Reenie Beanie", arial, sans-serif;
-  color: #000;
-  background: #ffc;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  height: 10em;
-  width: 10em;
-  padding: 1em;
-  box-shadow: 5px 5px 7px rgba(33, 33, 33, 0.7);
-  transition: transform 0.15s linear;
-  cursor: pointer;
-  h3 {
-    font-size: 2rem;
-  }
-  &:hover {
-    box-shadow: 10px 10px 7px rgba(0, 0, 0, 0.7);
-    transform: scale(1.25) !important;
-    position: relative;
-    z-index: 5;
-  }
-}
-</style>
+<style scoped lang="scss"></style>
