@@ -68,8 +68,8 @@ export const actions: ActionTree<NotesModuleState, RootState> = {
       this._vm.$nextTick(() => {
         window.$nuxt.$loading.start();
       });
-      if (note.id) {
-        await this.$axios.$put("/api/notes", note);
+      if (note.id.length) {
+        await this.$axios.$put("/api/notes/" + note.id, note);
       } else {
         await this.$axios.$post("/api/notes", note);
       }
@@ -79,7 +79,7 @@ export const actions: ActionTree<NotesModuleState, RootState> = {
         toaster: "b-toaster-bottom-right"
       });
       await dispatch(NotesActions.FETCH_NOTES);
-      return Promise.resolve('Saved');
+      return Promise.resolve("Saved");
     } catch (e) {
       this._vm.$bvToast.toast(e.message, {
         title: "Problem with loading data",
