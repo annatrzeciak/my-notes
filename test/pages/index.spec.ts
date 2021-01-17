@@ -1,24 +1,19 @@
 import {createLocalVue, mount} from "@vue/test-utils";
 import {beforeEach, describe, expect, it, jest} from "@jest/globals";
-import NoteId from "~/pages/note/_id/index.vue";
+import Home from "~/pages/index.vue";
 import Vuex from "vuex";
-import BootstrapVue from "bootstrap-vue";
-import VueRouter from "vue-router";
 
 const localVue = createLocalVue();
 localVue.use(Vuex);
-localVue.use(BootstrapVue);
-localVue.use(VueRouter);
-const router = new VueRouter();
 
-describe("Note page", () => {
+describe("Home page", () => {
   let actions: any;
   let mockStore: any;
   let wrapper: any;
 
   beforeEach(() => {
     actions = {
-      saveNote: jest.fn()
+      fetchNotes: jest.fn()
     };
 
     mockStore = new Vuex.Store({
@@ -30,10 +25,9 @@ describe("Note page", () => {
       }
     });
 
-    wrapper = mount(NoteId, {
+    wrapper = mount(Home, {
       store: mockStore,
       localVue,
-      router,
       propsData: {},
       mocks: {
         $store: mockStore
@@ -41,10 +35,7 @@ describe("Note page", () => {
     });
   });
 
-  it("Empty note", () => {
-    expect(wrapper.findAll(".alert-warning")).toHaveLength(1);
-    expect(wrapper.find(".alert-warning h4").text()).toContain(
-      "No data to display"
-    );
+  it("fetch notes", () => {
+    expect(actions.fetchNotes).toHaveBeenCalled();
   });
 });
