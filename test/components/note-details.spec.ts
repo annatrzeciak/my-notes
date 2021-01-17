@@ -8,7 +8,7 @@ const localVue = createLocalVue();
 localVue.use(vueBootstrap);
 localVue.use(Vuex);
 
-describe("Note component", () => {
+describe("Note details component", () => {
   let actions: any;
   let mockStore: any;
   let wrapper: any;
