@@ -1,5 +1,18 @@
 # my-notes
 
+Simple CRUD app. You can create note, read note details, update and delete note.
+You need add file `.env` with `API_URL` form https://crudcrud.com/ API
+
+file `.env` can looks:
+
+```
+API_URL=https://crudcrud.com/api/006daaa40906430491f438a0db39c5a6
+```
+
+Example added notes:
+
+![Notes](./assets/notes.png)
+
 ## Build Setup
 
 ```bash
