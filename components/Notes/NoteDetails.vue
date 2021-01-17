@@ -42,17 +42,21 @@
   import Vue, {PropType} from "vue";
   import {Note} from "~/types/note";
   import {BIconPencilSquare, BIconTrash} from "bootstrap-vue";
+  import {mapActions} from "vuex";
 
   export default Vue.extend({
   props: { note: { type: Object as PropType<Note>, required: true } },
   components: { BIconPencilSquare, BIconTrash },
   methods: {
-    deleteNote() {
-      console.log("delete");
+    ...mapActions("notes", ["removeNote"]),
+    async deleteNote() {
+      const response = await this.removeNote(this.note);
+      if (response) {
+        this.$router.push({ name: "index" });
+      }
     }
   }
 });
 </script>
 
-<style scoped lang="scss">
-</style>
+<style scoped lang="scss"></style>

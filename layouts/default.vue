@@ -59,7 +59,7 @@ h1 {
       z-index: 5;
     }
   }
-  &--xl{
+  &--xl {
     min-height: 400px;
     width: 400px;
     height: auto;
@@ -74,7 +74,7 @@ h1 {
       text-align: center;
       font-size: 1.3rem;
     }
-    small{
+    small {
       text-align: center;
     }
     footer {

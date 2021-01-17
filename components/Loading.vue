@@ -1,6 +1,6 @@
 <template>
   <div :class="['loading', { 'loading--visible': loading }]">
-    <b-spinner variant="primary" class="mb-2"/>
+    <b-spinner variant="primary" class="mb-2" />
     <div class="loading__text">Loading...</div>
   </div>
 </template>
@@ -17,6 +17,7 @@
       this.loading = true;
     },
     finish() {
+      // for better animation
       setTimeout(() => {
         this.loading = false;
       }, 500);

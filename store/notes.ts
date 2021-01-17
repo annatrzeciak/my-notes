@@ -4,7 +4,8 @@ import {Note} from "~/types/note";
 
 export enum NotesActions {
   FETCH_NOTES = "fetchNotes",
-  SAVE_NOTE = "saveNote"
+  SAVE_NOTE = "saveNote",
+  REMOVE_NOTE = "removeNote"
 }
 
 export enum NotesMutations {
@@ -50,8 +51,7 @@ export const actions: ActionTree<NotesModuleState, RootState> = {
         )
       );
     } catch (e) {
-      // @ts-ignore
-      this._vm.$bvToast.toast(e.message, {
+      this._vm.$bvToast.toast(e.response.data, {
         title: "Problem with loading data",
         variant: "danger",
         toaster: "b-toaster-bottom-right"
@@ -81,8 +81,34 @@ export const actions: ActionTree<NotesModuleState, RootState> = {
       await dispatch(NotesActions.FETCH_NOTES);
       return Promise.resolve("Saved");
     } catch (e) {
-      this._vm.$bvToast.toast(e.message, {
-        title: "Problem with loading data",
+      this._vm.$bvToast.toast(e.response.data, {
+        title: "Problem with saving data",
+        variant: "danger",
+        toaster: "b-toaster-bottom-right"
+      });
+    } finally {
+      this._vm.$nextTick(() => {
+        window.$nuxt.$loading.finish();
+      });
+    }
+  },
+  [NotesActions.REMOVE_NOTE]: async function({ dispatch }, note: Note) {
+    try {
+      this._vm.$nextTick(() => {
+        window.$nuxt.$loading.start();
+      });
+      await this.$axios.$delete("/api/notes/" + note.id);
+
+      this._vm.$bvToast.toast("The note was removed successfully", {
+        title: "Note saved",
+        variant: "success",
+        toaster: "b-toaster-bottom-right"
+      });
+      await dispatch(NotesActions.FETCH_NOTES);
+      return Promise.resolve("Removed");
+    } catch (e) {
+      this._vm.$bvToast.toast(e.response.data, {
+        title: "Problem with removing data",
         variant: "danger",
         toaster: "b-toaster-bottom-right"
       });

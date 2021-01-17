@@ -55,7 +55,10 @@
         v-b-tooltip.hover
         title="Click to save note"
       >
-        <b-icon-check-square scale="1.6" variant="success"></b-icon-check-square>
+        <b-icon-check-square
+          scale="1.6"
+          variant="success"
+        ></b-icon-check-square>
       </b-button>
     </footer>
   </b-form>

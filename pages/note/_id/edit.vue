@@ -2,12 +2,7 @@
   <b-row class="justify-content-center">
     <b-col col :lg="8" :md="10">
       <h1>Edit note</h1>
-      <note-form
-        v-if="note"
-        :note="note"
-        @submitted="save"
-        ref="noteForm"
-      />
+      <note-form v-if="note" :note="note" @submitted="save" ref="noteForm" />
       <b-alert v-else show variant="warning">
         <h4 class="alert-heading">No data to display</h4>
         <p>
