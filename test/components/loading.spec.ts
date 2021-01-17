@@ -10,23 +10,28 @@ const factory = (propsData = {}) => {
 };
 
 describe("Loading component", () => {
-  it("show spinner", () => {
+  it("show spinner", async () => {
     const wrapper = factory();
     const vm = wrapper.vm as any;
-    vm.start();
-
+    await vm.start();
+    expect(vm.loading).toEqual(true);
     expect(wrapper.findAll(".loading")).toHaveLength(1);
     expect(wrapper.findAll(".loading--visible")).toHaveLength(1);
     expect(wrapper.find(".loading__text").text()).toContain("Loading...");
   });
 
-  it("hide showed spinner", () => {
+  it("hide showed spinner", async () => {
     const wrapper = factory();
     const vm = wrapper.vm as any;
-    vm.start();
+    await vm.start();
+    expect(vm.loading).toEqual(true);
 
     expect(wrapper.findAll(".loading--visible")).toHaveLength(1);
-    vm.finish();
-    expect(wrapper.findAll(".loading--visible")).toHaveLength(0);
+    await vm.finish();
+    setTimeout(() => {
+      expect(vm.loading).toEqual(false);
+
+      expect(wrapper.findAll(".loading--visible")).toHaveLength(0);
+    }, 500);
   });
 });

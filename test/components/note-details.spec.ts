@@ -15,9 +15,7 @@ describe("Note details component", () => {
 
   beforeEach(() => {
     actions = {
-      removeNote: jest.fn(() => {
-        return Promise.resolve("Removed");
-      })
+      removeNote: jest.fn()
     };
 
     mockStore = new Vuex.Store({
